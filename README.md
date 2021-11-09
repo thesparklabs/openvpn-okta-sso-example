@@ -3,6 +3,8 @@ This example is designed to demonstrate Single Sign On support with Viscosity fr
 
 This example is not designed to be used stand-alone in a production environment, it is designed as an example to help guide integration with an existing login or client/user management system.
 
+A complete guide to accompany this example can be found at https://sparklabs.com/support/kb/article/setting-up-an-openvpn-server-with-okta-single-sign-on-web-authentication-and-viscosity/
+
 # Flask + Okta Hosted Login Example
 This example is based on the Flask + Okta Hosted Login example available at https://github.com/okta/samples-python-flask/tree/master/okta-hosted-login
 
