@@ -15,7 +15,8 @@ Before running this sample, you will need the following:
 * An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/.
 * An Okta Application, configured for Web mode. This is done from the Okta Developer Console and you can find instructions [here][OIDC WEB Setup Instructions].  When following the wizard, use the default properties.  They are are designed to work with our sample applications.
 * A running OpenVPN 2.5 server with the following commands:
-```management 127.0.0.1 50123 
+```
+management 127.0.0.1 50123 
 auth-user-pass-optional
 management-client-auth
 ```
