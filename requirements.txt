@@ -1,0 +1,6 @@
+requests==2.21.0
+Flask==1.0.2
+flask-cors==3.0.9
+pyOpenSSL==19.0.0
+Flask-Login==0.4.1
+okta-jwt-verifier==0.2.0

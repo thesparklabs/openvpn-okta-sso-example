@@ -1,0 +1,13 @@
+{% extends "template.html" %}
+
+{% block content %}
+{{ user.email }} logged in
+{% endblock content %}
+
+{% block script %}
+<script>
+    window.onload = (e) => {
+        window.postMessage({"type": "CONNECT_SUCCESS"});
+    };
+</script>
+{% endblock script %}
