@@ -1,0 +1,15 @@
+[Unit]
+Description=SSO Okta OpenVPN Flask Web Application
+After=syslog.target
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=ssoappuser
+WorkingDirectory=/home/ssoappuser/openvpn-okta-sso-example
+#Test for a new version to replace with
+ExecStart=/usr/bin/python3 /home/ssoappuser/openvpn-okta-sso-example/main.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
