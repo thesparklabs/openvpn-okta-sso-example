@@ -128,6 +128,7 @@ def callback():
     unique_id = userinfo_response["sub"]
     user_email = userinfo_response["email"]
     user_name = userinfo_response["given_name"]
+    username = userinfo_response["preferred_username"]
     print(userinfo_response)
 
     user = User(
@@ -137,7 +138,7 @@ def callback():
     if not User.get(unique_id):
         User.create(unique_id, user_name, user_email)
 
-    if openvpnManager.AllowUser(state):
+    if openvpnManager.AllowUser(state, username):
         login_user(user)
 
         return redirect(url_for("successfulLogin"))
