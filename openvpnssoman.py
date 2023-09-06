@@ -97,7 +97,8 @@ class OpenVPNSSOManager:
                             del self.sessions[self.clientID]
                     elif self.clientType == "ESTABLISHED":
                         self.sessions[self.clientID] = {}
-                        self.sessions[self.clientID]["SessionID"] = self.clientData["session_id"]
+                        if "session_id" in self.clientData:
+                            self.sessions[self.clientID]["SessionID"] = self.clientData["session_id"]
                     elif self.clientType == "REAUTH":
                         self.clientReauth(self.clientID, self.clientKID)
                     elif self.clientType == "DISCONNECT":
