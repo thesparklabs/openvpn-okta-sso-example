@@ -1,4 +1,4 @@
-import sys, os, base64
+import sys, os, base64, re
 import telnetlib
 import uuid, threading
 
@@ -7,6 +7,7 @@ from flask_login.utils import _user_context_processor
 class OpenVPNSSOManager:
     def __init__(self, port, baseloginUrl):
         self.port = port
+        self.managementVersion = 0
         self.loginUrl = baseloginUrl
         self.conn = telnetlib.Telnet()
         self.storage = {}
@@ -41,6 +42,9 @@ class OpenVPNSSOManager:
         try:
             self.conn.open('127.0.0.1', self.port)
             print("OpenVPN Connected")
+            
+            # Request OpenVPN version
+            self.conn.write("version\n".encode())
 
             while True:
                 try:
@@ -71,7 +75,14 @@ class OpenVPNSSOManager:
         command = split[0]
         content = split[1]
 
-        if command == ">CLIENT":
+        if command == ">INFO":
+            match = re.search(r"OpenVPN Management Interface Version (\d+)", content)
+            if match:
+                try:
+                    self.managementVersion = int(match.group(1))
+                except:
+                    pass
+        elif command == ">CLIENT":
             parts = content.split(',', 1)
             if len(parts) != 2:
                 return
@@ -128,9 +139,6 @@ class OpenVPNSSOManager:
         return
     
     def clientConnect(self, cid, kid):
-        # Set pending auth
-        # client-pending-auth {CID} {EXTRA} {TIMEOUT}
-
         # Generate a state and nonce
         state = str(uuid.uuid4())
         nonce = str(uuid.uuid4())
@@ -141,8 +149,15 @@ class OpenVPNSSOManager:
             "kid": kid
         }
 
+        # Set pending auth
         loginurl = "%s?state=%s" % (self.loginUrl, state)
-        reply = "client-pending-auth %s OPEN_URL:%s\n" % (cid, loginurl)
+        if self.managementVersion >= 5:
+            # OpenVPN 2.6+
+            timeout = 120 # Timeout reported to the client
+            reply = "client-pending-auth %s %s OPEN_URL:%s %d\n" % (cid, kid, loginurl, timeout)
+        else:
+            # OpenVPN 2.5
+            reply = "client-pending-auth %s OPEN_URL:%s\n" % (cid, loginurl)
         self.conn.write(reply.encode())
 
     def clientDeny(self, cid, kid, reason, clientReason=None):
