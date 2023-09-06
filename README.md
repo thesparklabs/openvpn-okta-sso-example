@@ -26,8 +26,8 @@ management-client-auth
 To run this application, you first need to clone this repo:
 
 ```bash
-git clone https://github.com/thesparklabs/openvpn-two-factor-extensions.git
-cd samples-python-flask
+git clone https://github.com/thesparklabs/openvpn-okta-sso-example.git
+cd openvpn-okta-sso-example
 ```
 
 Then install dependencies:
