@@ -155,4 +155,4 @@ def logout():
 if __name__ == '__main__':
     print("Start manager")
     openvpnManager.Start()
-    app.run(host="localhost", port=8080, debug=True, use_reloader=False)
+    app.run(host="localhost", port=8080, debug=False, use_reloader=False)
